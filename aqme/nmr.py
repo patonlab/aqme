@@ -12,8 +12,8 @@ import subprocess
 import glob
 import pandas as pd
 
-from pyconfort.cheshire_lookup import cheshire
-from pyconfort.qprep_gaussian import moving_files
+from aqme.cheshire_lookup import cheshire
+from aqme.qprep_gaussian import moving_files
 
 
 def nmr_stats(y_exp,y_pred):
@@ -128,7 +128,7 @@ def calculate_nmr(nmr_log_files,args,log,name,w_dir_fin,w_dir_initial,lot_sp,bs_
 				slope.append(float(scale.split()[1]))
 				intercept.append(float(scale.split()[3]))
 			except AttributeError:
-				log.write("x   No scaling factors found for this level of theory! Input the values as arguments for pyCONFORT!"); exit()
+				log.write("x   No scaling factors found for this level of theory! Input the values as arguments for aqme!"); exit()
 
 			log.write("\no  The slope for nucleus {0} = {1}".format(nuc, slope))
 			log.write("\no  The intercept for nucleus {0} = {1}".format(nuc, intercept))

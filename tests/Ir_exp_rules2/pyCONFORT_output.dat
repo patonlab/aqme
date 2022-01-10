@@ -1,5 +1,5 @@
 
-o  Importing pyCONFORT parameters from params_Ir_exp_rules_test_cdx.yaml
+o  Importing aqme parameters from params_Ir_exp_rules_test_cdx.yaml
 o  RESET input from   to Ir_4.cdx
 o  RESET verbose from False to True
 o  RESET CSEARCH from None to rdkit

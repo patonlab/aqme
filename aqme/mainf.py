@@ -14,20 +14,20 @@ import yaml
 import concurrent.futures as futures
 from progress.bar import IncrementalBar
 from rdkit.Chem import AllChem as Chem
-from pyconfort.csearch import check_for_pieces, check_charge_smi, clean_args, compute_confs, com_2_xyz_2_sdf, mol_from_sdf_or_mol_or_mol2,creation_of_dup_csv,Logger
-from pyconfort.filter import exp_rules_output
+from aqme.csearch import check_for_pieces, check_charge_smi, clean_args, compute_confs, com_2_xyz_2_sdf, mol_from_sdf_or_mol_or_mol2,creation_of_dup_csv,Logger
+from aqme.filter import exp_rules_output
 
-from pyconfort.qprep_gaussian import read_energies, write_gaussian_input_file, moving_files, convert_xyz_to_sdf, get_name_and_charge
-from pyconfort.qcorr_gaussian import output_analyzer, check_for_final_folder, dup_calculation
+from aqme.qprep_gaussian import read_energies, write_gaussian_input_file, moving_files, convert_xyz_to_sdf, get_name_and_charge
+from aqme.qcorr_gaussian import output_analyzer, check_for_final_folder, dup_calculation
 
-from pyconfort.grapher import graph
-from pyconfort.descp import calculate_parameters
-from pyconfort.nmr import calculate_boltz_and_nmr
-from pyconfort.energy import calculate_boltz_and_energy,calculate_avg_and_energy
-from pyconfort.dbstep_conf import calculate_db_parameters,calculate_boltz_and_dbstep
-from pyconfort.nics_conf import calculate_nics_parameters,calculate_boltz_for_nics,calculate_avg_nics
-from pyconfort.cclib_conf import calculate_cclib,calcualte_average_cclib_parameter,calculate_boltz_for_cclib
-from pyconfort.cmin import mult_min
+from aqme.grapher import graph
+from aqme.descp import calculate_parameters
+from aqme.nmr import calculate_boltz_and_nmr
+from aqme.energy import calculate_boltz_and_energy,calculate_avg_and_energy
+from aqme.dbstep_conf import calculate_db_parameters,calculate_boltz_and_dbstep
+from aqme.nics_conf import calculate_nics_parameters,calculate_boltz_for_nics,calculate_avg_nics
+from aqme.cclib_conf import calculate_cclib,calcualte_average_cclib_parameter,calculate_boltz_for_cclib
+from aqme.cmin import mult_min
 #need to and in energy
 
 #load paramters from yaml file
@@ -37,7 +37,7 @@ def load_from_yaml(args,log):
 		if args.varfile is not None:
 			if os.path.exists(args.varfile):
 				if os.path.splitext(args.varfile)[1] == '.yaml':
-					log.write("\no  Importing pyCONFORT parameters from " + args.varfile)
+					log.write("\no  Importing aqme parameters from " + args.varfile)
 					with open(args.varfile, 'r') as file:
 						try:
 							param_list = yaml.load(file, Loader=yaml.SafeLoader)
@@ -476,7 +476,7 @@ def qcorr_gaussian_main(duplicates,w_dir_initial,args,log):
 				os.makedirs(w_dir_main+'/dat_files/')
 			w_dir,round_num = check_for_final_folder(w_dir_main)
 			os.chdir(w_dir)
-			log = Logger(w_dir_main+'/dat_files/pyCONFORT-QCORR-run_'+str(round_num), args.output_name)
+			log = Logger(w_dir_main+'/dat_files/aqme-QCORR-run_'+str(round_num), args.output_name)
 			ana_data = creation_of_ana_csv(args,duplicates)
 			log.write("\no  Analyzing output files in {}\n".format(w_dir))
 			log_files = get_com_or_log_out_files('output',None)
@@ -499,7 +499,7 @@ def qcorr_gaussian_main(duplicates,w_dir_initial,args,log):
 				os.makedirs(w_dir_main+'/dat_files/')
 			#check if New_Gaussian_Input_Files folder exists
 			w_dir,round_num = check_for_final_folder(w_dir_main)
-			log = Logger(w_dir_main+'/dat_files/pyCONFORT-QCORR-run_'+str(round_num), args.output_name)
+			log = Logger(w_dir_main+'/dat_files/aqme-QCORR-run_'+str(round_num), args.output_name)
 			#assign the path to the finished directory.
 			if str(bs).find('/') > -1:
 				w_dir_fin = args.path + str(lot) + '-' + str(bs).split('/')[0] +'/success/output_files'

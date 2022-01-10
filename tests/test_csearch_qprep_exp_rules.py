@@ -39,7 +39,7 @@ precision_exp_rules = 2
 
 def test_confgen_exp_rules(folder, smiles, params_file, E_confs_no_rules, E_confs_rules, com_files, charge, format):
     # runs the program with the different tests
-    cmd_exp_rules = ['python', '-m', 'pyconfort', '--varfile', params_file]
+    cmd_exp_rules = ['python', '-m', 'aqme', '--varfile', params_file]
 
     Ir_rules = ['Ir_exp_rules','Ir_exp_rules2']
     Pd_rules = ['Pd_exp_rules','Pd_exp_rules2','Pd_exp_rules3']

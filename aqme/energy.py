@@ -5,7 +5,7 @@
 # 	     used for genrating details for energy      #
 #####################################################.
 
-from pyconfort.qcorr_gaussian import moving_files
+from aqme.qcorr_gaussian import moving_files
 
 from rdkit.Chem import AllChem as Chem
 import numpy as np

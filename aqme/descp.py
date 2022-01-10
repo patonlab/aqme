@@ -10,7 +10,7 @@ from rdkit.Chem import rdMolTransforms
 import os
 import numpy as np
 import pandas as pd
-from pyconfort.csearch import getDihedralMatches
+from aqme.csearch import getDihedralMatches
 
 
 def get_data(rdkit_mols,min_mols,dft_mols,lot,bs,name_mol,args,type_csearch,type_min,w_dir_initial):

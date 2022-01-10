@@ -17,9 +17,9 @@ from rdkit.Chem import rdMolTransforms, PropertyMol, rdDistGeom, rdMolAlign, Lip
 from rdkit.Geometry import Point3D
 from progress.bar import IncrementalBar
 
-from pyconfort.argument_parser import possible_atoms
-from pyconfort.filter import ewin_filter,pre_E_filter,RMSD_and_E_filter,set_metal_atomic_number
-from pyconfort.filter import get_conf_RMS
+from aqme.argument_parser import possible_atoms
+from aqme.filter import ewin_filter,pre_E_filter,RMSD_and_E_filter,set_metal_atomic_number
+from aqme.filter import get_conf_RMS
 
 
 possible_atoms = possible_atoms()

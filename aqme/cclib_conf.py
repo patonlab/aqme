@@ -6,9 +6,9 @@
 #####################################################.
 
 import subprocess, sys, os, math
-from pyconfort.qprep_gaussian import moving_files
+from aqme.qprep_gaussian import moving_files
 import pandas as pd
-from pyconfort.argument_parser import possible_atoms
+from aqme.argument_parser import possible_atoms
 import json
 import numpy as np
 

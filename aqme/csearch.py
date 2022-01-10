@@ -16,13 +16,13 @@ from rdkit.Chem import AllChem as Chem
 from rdkit.Chem import rdMolTransforms, PropertyMol, rdDistGeom, rdMolAlign, Lipinski
 from rdkit.Geometry import Point3D
 from progress.bar import IncrementalBar
-import pyconfort
-from pyconfort.qprep_gaussian import write_confs
-from pyconfort.filter import filters,set_metal_atomic_number,ewin_filter,pre_E_filter,RMSD_and_E_filter
-from pyconfort.argument_parser import possible_atoms
-from pyconfort.tmbuild import template_embed
-from pyconfort.cmin import mult_min, rules_get_charge, atom_groups,substituted_mol
-from pyconfort.fullmonte import generating_conformations_fullmonte, minimize_rdkit_energy,realign_mol
+import aqme
+from aqme.qprep_gaussian import write_confs
+from aqme.filter import filters,set_metal_atomic_number,ewin_filter,pre_E_filter,RMSD_and_E_filter
+from aqme.argument_parser import possible_atoms
+from aqme.tmbuild import template_embed
+from aqme.cmin import mult_min, rules_get_charge, atom_groups,substituted_mol
+from aqme.fullmonte import generating_conformations_fullmonte, minimize_rdkit_energy,realign_mol
 
 
 hartree_to_kcal = 627.509
@@ -214,9 +214,9 @@ def check_for_pieces(smi):
 #if template activated, loads it
 def load_template(args):
 	try:
-		os.chdir(os.path.join(pyconfort.__path__[0])+'/templates/')
+		os.chdir(os.path.join(aqme.__path__[0])+'/templates/')
 	except FileNotFoundError:
-		log.write('x The templates folder was not found, probably due to a problem while installing pyCONFORT')
+		log.write('x The templates folder was not found, probably due to a problem while installing aqme')
 		sys.exit()
 	if args.complex_type == 'squareplanar' or args.complex_type == 'squarepyramidal':
 		file_template = 'template-4-and-5.sdf'

@@ -3,16 +3,17 @@
 #########################################################################################.
 #########################################################################################
 ###																					  ###
-###  pyCONFORT is a tool that allows to carry out automated:						  ###
-###  (1) Conformational searches and creation of COM files using RDKit, xTB and ANI1  ###
-###  (2) LOG file processing (detects imaginary freqs and error terminations		  ###
-###      and creates new COM files)													  ###
-###  (3) Use LOG files to create new COM files with new keywords (i.e. single-point   ###
-###      corrections after geometry optimization)									  ###
+###  AQME is a tool that allows to carry out automated:		        				  ###
+###  (1) Conformational searches using RDKit and CREST								  ###
+###  (2) Refine initical conformers by optimizing with xTB and ANI1  				  ###
+###  (3) Create QM input files using the generated conformers						  ###
+###	 (4) Post-process QM calculations and automatically correct errored calcs		  ###
+###  (5) Use output files to create new COM files with new keywords (i.e. SPC calcs)  ###
+###  (6) Generate molecular descriptors with RDKit, xTB and DFT calculations		  ###
 ###  																				  ###
 #########################################################################################
 ###  																				  ###
-###  Version: v1.0.1, Release date: 22-May-2020								     	  ###
+###  Version: v1.0.1, Release date: 12-Jan-2021								     	  ###
 ###  																				  ###
 #########################################################################################
 ###  																				  ###
@@ -27,16 +28,16 @@
 from __future__ import print_function
 import os
 import time
-from pyconfort.argument_parser import parser_args
-from pyconfort.mainf import csearch_main, exp_rules_main, qprep_main, move_sdf_main, qcorr_gaussian_main,dup_main,graph_main,geom_par_main,nmr_main,energy_main,load_from_yaml,creation_of_ana_csv,dbstep_par_main,nics_par_main,cclib_main,cmin_main
-from pyconfort.csearch import Logger
+from aqme.argument_parser import parser_args
+from aqme.mainf import csearch_main, exp_rules_main, qprep_main, move_sdf_main, qcorr_gaussian_main,dup_main,graph_main,geom_par_main,nmr_main,energy_main,load_from_yaml,creation_of_ana_csv,dbstep_par_main,nics_par_main,cclib_main,cmin_main
+from aqme.csearch import Logger
 
 def main():
 	# working directory and arguments
 	w_dir_initial = os.getcwd()
 	args = parser_args()
 
-	log_overall = Logger("pyCONFORT", args.output_name)
+	log_overall = Logger("aqme", args.output_name)
 	#if needed to load from a yaml file
 	load_from_yaml(args,log_overall)
 
@@ -130,10 +131,10 @@ def main():
 	log_overall.finalize()
 
 	try:
-		os.rename('pyCONFORT_output.dat','pyCONFORT_{0}.dat'.format(args.output_name))
+		os.rename('aqme_output.dat','aqme_{0}.dat'.format(args.output_name))
 	except FileExistsError:
-		os.remove('pyCONFORT_{0}.dat'.format(args.output_name))
-		os.rename('pyCONFORT_output.dat','pyCONFORT_{0}.dat'.format(args.output_name))
+		os.remove('aqme_{0}.dat'.format(args.output_name))
+		os.rename('aqme_output.dat','aqme_{0}.dat'.format(args.output_name))
 
 
 if __name__ == "__main__":

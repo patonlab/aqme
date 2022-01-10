@@ -34,11 +34,11 @@ path_analysis_dup_sp = os.getcwd()
 
 def test_analysis_dup_sp(folder, file, params_file, type_of_job):
     # runs the program with the different tests
-    cmd_pyconfort = ['python', '-m', 'pyconfort', '--varfile', params_file]
+    cmd_aqme = ['python', '-m', 'aqme', '--varfile', params_file]
 
     if type_of_job == 'analysis':
         if file != 'csv' and file != 'dat':
-            outlines = analysis(path_analysis_dup_sp, cmd_pyconfort, folder, file)
+            outlines = analysis(path_analysis_dup_sp, cmd_aqme, folder, file)
 
             if file == 'Basis_set_error1.LOG' or file == 'Basis_set_error2.LOG':
                 os.chdir(path_analysis_dup_sp+'/'+folder+'/input_files/run_2')
@@ -99,7 +99,7 @@ def test_analysis_dup_sp(folder, file, params_file, type_of_job):
                 assert outlines[line_number].find(line) > -1
 
         else:
-            df_QCORR,dat_files = analysis(path_analysis_dup_sp, cmd_pyconfort, folder, file)
+            df_QCORR,dat_files = analysis(path_analysis_dup_sp, cmd_aqme, folder, file)
 
         if file == 'csv':
             assert df_QCORR['Total files'][0] == 9
@@ -112,7 +112,7 @@ def test_analysis_dup_sp(folder, file, params_file, type_of_job):
             assert df_QCORR['Duplicates'][0] == 1
 
         elif file == 'dat':
-            assert 'pyCONFORT-QCORR-run_1_output.dat' in dat_files
+            assert 'aqme-QCORR-run_1_output.dat' in dat_files
 
         # check that the files are in their corresponding folders (just once)
         if file == 'CH4_Normal_termination.log':

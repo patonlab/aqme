@@ -8,9 +8,9 @@ with io.open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-  name='pyconfort',
-  packages=['pyconfort'],
-  package_data={'pyconfort': ['templates/*']},
+  name='aqme',
+  packages=['aqme'],
+  package_data={'aqme': ['templates/*']},
   version='1.1.0',
   license='MIT',
   description='Python-based conformer generation and post-processing of DFT output files',
