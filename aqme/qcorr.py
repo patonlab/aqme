@@ -245,7 +245,7 @@ class qcorr():
 			
 			keywords_line,calc_type,mem,nprocs,qm_program,author,qm_solv,qm_emp = self.get_init_info(outlines)
 
-			grid_size,s2_operator,s2_preannhi,level_of_theory = self.grid_s2_info(outlines,qm_program)
+			grid_size,s2_operator,s2_preannhi,level_of_theory,creation_date = self.grid_s2_info(outlines,qm_program)
 
 			# determine error/unfinished vs normal terminations
 			try:
@@ -482,6 +482,7 @@ class qcorr():
 			aqme_data['AQME data']['grid'] = grid_size
 			aqme_data['AQME data']['<S**2>'] = s2_operator
 			aqme_data['AQME data']['level of theory'] = level_of_theory
+			aqme_data['AQME data']['creation date'] =creation_date
 			if termination == 'normal' and errortype == 'none':
 				aqme_data['AQME data']['symmetry number'] = symmno
 				aqme_data['AQME data']['point group'] = point_group
@@ -569,7 +570,7 @@ class qcorr():
 		
 		for i in range(0,len(outlines)):
 			if outlines[i].find(' Gaussian ') > -1 and outlines[i].find('Revision') > -1:
-				qm_program = outlines[i][1:-1]
+				qm_program = outlines[i][1:-2]
 
 			elif outlines[i].find('* O   R   C   A *') > -1:
 				qm_program = 'ORCA'
@@ -783,14 +784,16 @@ class qcorr():
 			<S**2> value from open-shell QM calculations
 		level_of_theory : str
 			Functional and basis set used in the QM calculations
+		creation_date : str
+			Date of creation of the QM calculations (when they finish)
 		"""  
 
-		grid_size,s2_operator,s2_preannhi,s2_found,level_of_theory = '',0,0,False,''
+		grid_size,s2_operator,s2_preannhi,s2_found,level_of_theory,creation_date = '',0,0,False,'',''
 		grid_lookup = {1: 'sg1', 2: 'coarse', 4: 'fine', 5: 'ultrafine', 7: 'superfine'}
 		found_theory,level,bs = False,'',''
 		line_options = ['\\freq\\','|freq|','\\sp\\','|sp|']
 
-		for i in reversed(range(0,len(outlines)-15)):
+		for i in reversed(range(0,len(outlines))):
 			# get grid size
 			if qm_program.lower().find('gaussian') > -1:
 				if outlines[i].find('ExpMin=') > -1:
@@ -801,16 +804,21 @@ class qcorr():
 					s2_preannhi = float(outlines[i].strip().split()[-3][:-1])
 					s2_found = True
 
+				elif outlines[i].find('Normal termination') > -1:
+					creation_date = ' '.join(item for item in outlines[i].strip().split()[-4:])
+					creation_date = creation_date[:-1]
+
 				# get functional and basis set
 				if not found_theory:
 					if outlines[i].find('External calculation') > -1:
 						level, bs = 'ext', 'ext'
 						level_of_theory = '/'.join([level, bs])
 						found_theory = True
-					for option in line_options:
-						if option in (outlines[i].lower()+outlines[i+1].lower()):
-							level, bs = ((outlines[i]+outlines[i+1]).strip().replace('|','\\').split("\\")[4:6])
-							found_theory = True
+					if i < len(outlines)-1:
+						for option in line_options:
+							if option in (outlines[i].lower()+outlines[i+1].lower()):
+								level, bs = ((outlines[i]+outlines[i+1]).strip().replace('|','\\').split("\\")[4:6])
+								found_theory = True
 					# Remove the restricted R or unrestricted U label
 					if level != '':
 						if level[0] in ('R', 'U'):
@@ -838,7 +846,7 @@ class qcorr():
 		if level_of_theory == 'HF/GFHFB2':
 			level_of_theory = 'G4'
 
-		return grid_size,s2_operator,s2_preannhi,level_of_theory
+		return grid_size,s2_operator,s2_preannhi,level_of_theory,creation_date
 
 
 	def fix_imag_freqs(self, n_atoms, cartesians, freqs, freq_displacements, calc_type):

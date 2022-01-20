@@ -1,4 +1,4 @@
-![](Logos/AQME_logo.tif)
+![](Logos/AQME_logo.jpg)
 [![Build Status](https://img.shields.io/travis/com/jvalegre/aqme?label=Linux%20CI&logo=Travis)](https://travis-ci.com/github/jvalegre/aqme)
 [![Tests](https://img.shields.io/static/v1?label=Tests&message=104&color=green&logo=Travis)](https://travis-ci.com/github/jvalegre/aqme)
 [![Codecov](https://img.shields.io/codecov/c/github/jvalegre/aqme?label=Codecov&logo=codecov)](https://codecov.io/gh/jvalegre/aqme)
@@ -21,7 +21,7 @@ The code is an ensemble of automated QM workflows that can be run through jupyte
 
 ## Installation
 1) Installing RDKit and openbabel through conda:
-`conda install -c rdkit rdkit`
+`conda install -c rdkit rdkit` or `conda install -c conda-forge rdkit` (compatible with Python >=3.8)
 `conda install -c conda-forge openbabel`
 
 2) Install AQME and its dependencies
@@ -67,13 +67,23 @@ Descriptor generator from multiple input types such as SMILES, log files, xyz, e
 * QM programs (cclib-compatible)
 
 ## Quickstart
+### Using AQME in Jupyter Notebooks
 There are multiple ready-to-use workflows presented as jupyter notebooks in the 'Example_workflows' folder. Some examples are:
-* QCORR_workflows.ipynb:
+* QCORR_workflows.ipynb (QCORR analysis of Gaussian output files):
 1) Analyze optimized QM ground and transition states and create json files of normally terminated files with no errors, extra imaginary frequencies, duplicates, etc. 
 2) Use json files to generate single-point energy corrections with multiple levels of theory, charge and multiplicity through for loops:
 2a) For Gaussian files, genECP and NBO files containing final extra lines are provided. 
 2b) For ORCA input files, a DLPNO-CCSD(T) example with multiple % sections is provided. 
 2c) For pySCF, a calculation is set with DeepMind 21 (DM21).
+
+### Using AQME through command lines in terminals
+AQME can also be run through command lines. Some examples are:
+* QCORR analysis of Gaussian output files and json file generation:
+1) cd into a folder with output files (in this case, LOG files but other formats such as OUT are compatible as well)
+2) Run: `python -m aqme --qcorr --qm_files=*.log`
+* Input file generation from json files:
+1) cd into a folder with json files
+2) Run: `python -m aqme --json2input --qm_input "M062x def2tzvp opt freq" --json_files *.json --suffix m062x`
 
 ## Extended documentation (installation, use, examples, etc)
 ** In process **
