@@ -793,7 +793,20 @@ def parser_args():
         "--nci_complex",
         action="store_true",
         default=False,
-        help="Request NCI complexes",
+        help="Request NCI complexes conformational search",
+    )
+    # TS complex
+    parser.add_argument(
+        "--ts_complex",
+        action="store_true",
+        default=False,
+        help="Request TS complexes conformational search",
+    )
+    parser.add_argument(
+        "--cbonds",
+        action="store",
+        default=0.5,
+        help="cbonds fro NCI complexes",
     )
     parser.add_argument(
         "--prefix",
@@ -952,13 +965,19 @@ def set_options(kwargs):
         "geom_rules": [],
         "angle_off": 30,
         "nci_complex": False,
+        "ts_complex": False,
+        "cbonds": 0.5,
         "prefix": "None",
+        "constraints_dist": None,
+        "constraints_angle": None,
+        "constraints_dihedral": None,
         "isom": None,
         "nocheck": False,
         "nocom": False,
         "program": "gaussian",
         "program_sp": "gaussian",
         "qcorr_json": "",
+        "bs_gen" : None
     }
 
     for key in var_dict:

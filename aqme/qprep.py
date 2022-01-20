@@ -107,9 +107,12 @@ class qprep:
 		self.program = program
 
 		if destination is None:
-			self.destination = self.w_dir_main.joinpath("QCALC")
+			self.destination = Path(os.getcwd()+"/QCALC/")
+      
 		else:
 			self.destination = Path(destination)
+     
+    dat_folder = self.destination.joinpath("dat_files/")
 
 		if "options" in kwargs:
 			self.args = kwargs["options"]
@@ -169,7 +172,7 @@ class qprep:
 		txt = ''
 
 		if self.program.lower() == 'gaussian':
-			if self.chk: 
+			if self.chk:
 				txt += f'%chk={self.molecule}.chk\n'
 			txt += f'%nprocshared={self.nprocs}\n'
 			txt += f'%mem={self.mem}\n'
@@ -236,7 +239,7 @@ class qprep:
 		return txt
 
 	def write(self):
-		
+
 		if self.program.lower() == 'gaussian':
 			extension = 'com'
 		elif self.program.lower() == 'orca':
@@ -245,7 +248,7 @@ class qprep:
 			comfile = f'{self.molecule}_{self.suffix}.{extension}'
 		else:
 			comfile = f'{self.molecule}.{extension}'
-		
+
 		if os.path.exists(comfile):
 			os.remove(comfile)
 
